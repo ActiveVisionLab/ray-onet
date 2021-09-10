@@ -1,0 +1,64 @@
+method: ray-onet
+data:
+  dataset: Shapes3D
+  path: data/ShapeNet
+  occ_path: data/ShapeNet.build/ray_occ
+  classes: null
+  train_split: train
+  val_split: val
+  test_split: test
+  dim: 3
+  points_file: points.npz
+  points_iou_file: points.npz
+  points_subsample: 1024
+  points_subsample_val: 1024
+  points_unpackbits: true
+  img_folder: img_choy2016
+  img_size: 224 
+  img_with_camera: false
+  n_views: 24
+  pointcloud_file: pointcloud.npz
+  pointcloud_chamfer_file: pointcloud.npz
+  with_transforms: false
+  voxels_file: 'model.binvox'
+  img_extension: png
+  depth_range: [0, 2.4]
+model:
+  decoder: simple
+  encoder: resnet18_shared
+  c_dim: 512
+  use_camera: false
+  positional_encoding: false
+  normalize: false
+  freeze_encoder: false
+  use_mixer: true
+  input3: scale
+training:
+  out_dir:  out/default
+  load_dir: model.pt
+  batch_size: 64
+  print_every: 10
+  visualize_every: 2000
+  checkpoint_every: 1000
+  validate_every: 2000
+  backup_every: 100000
+  model_selection_metric: loss
+  model_selection_mode: minimize
+  lr: 0.0001
+  scheduler_milestones: [750, 1000]
+test:
+  threshold: 0.5
+  eval_mesh: true
+  eval_pointcloud: true
+  model_file: model_best.pt
+generation:
+  vis_n_outputs: 30
+  generate_mesh: true
+  generate_pointcloud: true
+  generation_dir: generation
+  resolution_0: 32
+  resolution_regular: 128
+  upsampling_steps: 2
+  copy_groundtruth: false
+  copy_input: true
+

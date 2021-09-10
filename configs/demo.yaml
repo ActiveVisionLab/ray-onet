@@ -1,0 +1,10 @@
+inherit_from: configs/rayonet.yaml
+data:
+  dataset: images
+  path: demo
+  img_with_camera: false
+  with_transforms: false
+training:
+  out_dir:  demo
+generation:
+  generation_dir: generation

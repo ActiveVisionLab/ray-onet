@@ -1,0 +1,44 @@
+method: ray-onet
+data:
+  img_folder: img_choy2016
+  img_size: 224
+  points_subsample: 1024
+  points_subsample_val: 2048
+  dim: 2
+  img_with_camera: true
+  with_transforms: true
+  img_extension: jpg
+  depth_range: [0.63, 2.16]
+model:
+  decoder: simple
+  encoder: resnet18_shared
+  c_dim_local: 256
+  c_dim_global: 256
+  z_resolution: 128
+  positional_encoding: false
+  normalize: true
+  freeze_encoder: false
+  input3: scale
+training:
+  out_dir:  rayonet
+  batch_size: 64
+  model_selection_metric: iou
+  model_selection_mode: maximize
+  visualize_every: 20000
+  validate_every: 2000
+  lr: 0.0001
+test:
+  threshold: 0.2
+  eval_mesh: true
+  eval_pointcloud: false
+  model_file: rayonet/model_best.pt
+generation:
+  batch_size: 100000
+  refine: false
+  resolution_0: 128
+  resolution_regular: 256
+  upsampling_steps: 0
+  generation_dir: pretrained
+
+
+
