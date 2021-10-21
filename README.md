@@ -4,7 +4,7 @@
 Wenjing Bian, 
 Zirui Wang, 
 [Kejie Li](https://likojack.github.io/kejieli/#/home), 
-[Victor Adrian Prisacariu](http://www.robots.ox.ac.uk/~victor/). 
+[Victor Adrian Prisacariu](http://www.robots.ox.ac.uk/~victor/). BMVC 2021.
 
 Active Vision Lab, University of Oxford.
 
@@ -116,10 +116,10 @@ Our code is built on [Occupancy Networks](https://github.com/autonomousvision/oc
 
 ## Citation
 ```
- @article{bian2021rayonet,
+ @inproceedings{bian2021rayonet,
 	title={Ray-ONet: Efficient 3D Reconstruction From A Single RGB Image}, 
 	author={Wenjing Bian and Zirui Wang and Kejie Li and Victor Adrian Prisacariu},
-	journal={arXiv preprint arXiv:2107.01899},
+	booktitle={BMVC},
 	year={2021}
    }
 ```
