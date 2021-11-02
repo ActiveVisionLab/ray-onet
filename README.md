@@ -70,9 +70,9 @@ python generate.py CONFIG.yaml
 where you replace `CONFIG.yaml` with the correct config file.
 
 The easiest way is to use a pretrained model.
-You can download the pretrained model from this [link](https://drive.google.com/file/d/13bqvif27cNJJ5SzNtM4quttLoEy08pfH/view?usp=sharing) 
-and place it under the directory `rayonet`
-
+You can download the model trained on 13 ShapeNet categories from this [link](https://drive.google.com/file/d/13bqvif27cNJJ5SzNtM4quttLoEy08pfH/view?usp=sharing) 
+and place it under the directory `rayonet`.
+The model trained on 3 classes (airplane, car, and chair) can be downloaded from this [link](https://drive.google.com/file/d/1XQykHK-5trfZYlD-uoV52hjEHV2PuyfW/view?usp=sharing).
 ### Evaluation
 For evaluation of the models, we provide two scripts: `eval.py` and `eval_meshes.py`.
 
