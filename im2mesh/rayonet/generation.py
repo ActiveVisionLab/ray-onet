@@ -116,20 +116,14 @@ class Generator3D(object):
         depth_min = self.depth_range[0]
         nx = self.resolution_regular
         nz = self.z_resolution
-        value_grid = value_grid.unsqueeze(0).unsqueeze(0)
+        value_grid = value_grid.permute(2, 0, 1).unsqueeze(1)
         bias = 1e-6
-        scaled_grid = []
-        for i in range(nz):
-            scale = depth_max / (depth_min + (depth_max-depth_min) * i / nz + bias)
-            points_xy = scale * make_2d_grid(
-            (-1.0,)*2, (1.0,)*2, (nx,)*2
-        )
-            points_xy = points_xy.unsqueeze(0).unsqueeze(2).to(self.device)  # [B, N, 1, 2]
-            c = F.grid_sample(value_grid[:, :, :, :, i], points_xy, padding_mode='zeros', align_corners=True, mode='bilinear') #(1, 1, 4096,1)
-            scaled_grid.append(c)
-
-        scaled_grid = torch.cat(scaled_grid, dim=3) # (1, z_resolution, num_samples)
-
+        scale = depth_max / (depth_min + (depth_max - depth_min) * torch.linspace(0, 1, nz) + bias).to(self.device)
+        points_xy = make_2d_grid((-1.0,) * 2, (1.0,) * 2, (nx,) * 2).unsqueeze(-1).expand(nx * nx, 2, nz).to(
+            self.device)
+        points_xy_scaled = torch.mul(scale, points_xy).permute(2, 0, 1).unsqueeze(1)
+        scaled_grid = F.grid_sample(value_grid, points_xy_scaled, padding_mode='zeros', align_corners=True,
+                                    mode='bilinear').permute(1, 2, 3, 0)
         return scaled_grid
 
     def eval_points(self,scale_factor, points_xy, ray_dir, c=None, c_local=None, **kwargs):
