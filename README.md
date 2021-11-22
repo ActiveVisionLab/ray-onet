@@ -34,7 +34,8 @@ python setup.py build_ext --inplace
 ```
 
 ## Demo
-
+You can download the model trained on 13 ShapeNet categories from this [link](https://drive.google.com/file/d/13bqvif27cNJJ5SzNtM4quttLoEy08pfH/view?usp=sharing) 
+and place it under the directory `demo`.
 You can now test our code on the provided input images in the `demo` folder.
 To this end, simply run
 ```

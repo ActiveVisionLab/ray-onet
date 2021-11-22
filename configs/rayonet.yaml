@@ -31,7 +31,6 @@ test:
   threshold: 0.2
   eval_mesh: true
   eval_pointcloud: false
-  model_file: rayonet/model_best.pt
 generation:
   batch_size: 100000
   refine: false

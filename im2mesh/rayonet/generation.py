@@ -9,37 +9,16 @@ import torch.nn as nn
 import torch.nn.functional as F
 
 class Generator3D(object):
-    '''  Generator class for Occupancy Networks.
-
-    It provides functions to generate the final mesh as well refining options.
-
-    Args:
-        model (nn.Module): trained Occupancy Network model
-        points_batch_size (int): batch size for points evaluation
-        threshold (float): threshold value
-        refinement_step (int): number of refinement steps
-        device (device): pytorch device
-        resolution0 (int): start resolution for MISE
-        upsampling steps (int): number of upsampling steps
-        with_normals (bool): whether normals should be estimated
-        padding (float): how much padding should be used for MISE
-        sample (bool): whether z should be sampled
-        simplify_nfaces (int): number of faces the mesh should be simplified to
-        preprocessor (nn.Module): preprocessor for inputs
-    '''
-
     def __init__(self, model,
                  threshold=0.5, device=None,
                  z_resolution=32,
                  resolution0=16,
-                 padding=0.1,
                  camera=True, depth_range=[0, 1], resolution_regular=128,
                  input3='scale', dataset='Shapes3D'):
         self.model = model.to(device)
         self.threshold = threshold
         self.device = device
         self.resolution0 = resolution0
-        self.padding = padding
         self.z_resolution = z_resolution
         self.camera = camera
         self.depth_range = depth_range
@@ -73,13 +52,6 @@ class Generator3D(object):
         else:
             return mesh
     def generate_from_latent(self, c=None, c_local=None, data=None, stats_dict={}, **kwargs):
-        ''' Generates mesh from latent.
-
-        Args:
-            z (tensor): latent code z
-            c (tensor): latent conditioned code c
-            stats_dict (dict): stats dictionary
-        '''
         t0 = time.time()
         nz = self.z_resolution
         nx = self.resolution0
@@ -198,7 +170,6 @@ class Generator3D(object):
         # Strange behaviour in libmcubes: vertices are shifted by 0.5
         vertices = torch.from_numpy(vertices.astype(np.float32))
         vertices -= 0.5
-        # Undo padding
         vertices -= 1
         # Normalize to bounding box
         vertices /= torch.from_numpy(np.array([n_x - 1, n_y - 1, n_z - 1]).astype(np.float32))
